@@ -25,14 +25,16 @@ if (Iconv_FOUND)
 endif()
 
 set_target_properties(popt PROPERTIES
-	VERSION ${PROJECT_VERSION}
-	SOVERSION ${POPT_SOVERSION}
-	C_STANDARD 99
-	C_STANDARD_REQUIRED ON
-	C_EXTENSIONS ON
-	PUBLIC_HEADER popt.h
-	LINK_FLAGS "-Wl,--no-undefined -Wl,--version-script,\"${PROJECT_SOURCE_DIR}/src/libpopt.vers\""
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${POPT_SOVERSION}
+    C_STANDARD 99
+    C_STANDARD_REQUIRED ON
+    C_EXTENSIONS ON
+    PUBLIC_HEADER popt.h
 )
+if(NOT APPLE)
+    set_target_properties(LINK_FLAGS "-Wl,--no-undefined -Wl,--version-script,\"${PROJECT_SOURCE_DIR}/src/libpopt.vers\"")
+endif()
 
 # Install the library
 configure_file(${PROJECT_SOURCE_DIR}/cmake/popt.pc.in ${CMAKE_BINARY_DIR}/popt.pc @ONLY)
